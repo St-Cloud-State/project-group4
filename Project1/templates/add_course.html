@@ -1,0 +1,14 @@
+<!-- templates/add_course.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Add Course</h2>
+
+<!-- Form to add a new course -->
+<form method="POST">
+    Rubric: <input type="text" name="rubric" required><br><br>
+    Number: <input type="text" name="number" required><br><br>
+    Name: <input type="text" name="name" required><br><br>
+    Credits: <input type="number" name="credits" required><br><br>
+    <input type="submit" value="Add Course">
+</form>
+{% endblock %}

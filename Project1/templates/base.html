@@ -1,0 +1,31 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>University Registration System</title>
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Link to external JavaScript -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <h1>University Registration System</h1>
+
+    <!-- Navigation bar for all core pages -->
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a> |
+        <a href="{{ url_for('add_student') }}">Add Student</a> |
+        <a href="{{ url_for('list_students') }}">List Students</a> |
+        <a href="{{ url_for('add_course') }}">Add Course</a> |
+        <a href="{{ url_for('list_courses') }}">List Courses</a> |
+        <a href="{{ url_for('add_section') }}">Add Section</a> |
+        <a href="{{ url_for('list_sections') }}">List Sections</a>
+    </nav>
+
+    <hr>
+
+    <!-- Placeholder where content from other pages will be inserted -->
+    {% block content %}{% endblock %}
+</body>
+</html>

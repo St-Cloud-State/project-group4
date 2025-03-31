@@ -1,0 +1,12 @@
+<!-- templates/list_students.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>All Students</h2>
+
+<!-- Display a list of students -->
+<ul>
+    {% for student in students %}
+        <li>{{ student['name'] }} — {{ student['address'] }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

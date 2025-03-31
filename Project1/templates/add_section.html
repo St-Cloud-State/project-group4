@@ -1,0 +1,19 @@
+<!-- templates/add_section.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Add Section</h2>
+
+<!-- Form to add a new section for an existing course -->
+<form method="POST">
+    Course:
+    <!-- Dropdown menu for selecting a course -->
+    <select name="course_id" required>
+        {% for course in courses %}
+            <option value="{{ course['id'] }}">{{ course['rubric'] }} {{ course['number'] }} - {{ course['name'] }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    Semester: <input type="text" name="semester" placeholder="e.g. Fall 2024" required><br><br>
+    <input type="submit" value="Add Section">
+</form>
+{% endblock %}

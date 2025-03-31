@@ -1,0 +1,15 @@
+<!-- templates/list_sections.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>All Sections</h2>
+
+
+
+<ul>
+    {% for section in sections %}
+        <li>
+            Section ID {{ section['id'] }} — Course ID: {{ section['course_id'] }} — Semester: {{ section['semester'] }}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

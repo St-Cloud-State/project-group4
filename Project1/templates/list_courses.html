@@ -1,0 +1,19 @@
+<!-- templates/list_courses.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>All Courses</h2>
+
+<!-- Filter form to search by rubric -->
+<form method="get">
+    Filter by Rubric:
+    <input type="text" name="rubric" placeholder="e.g. CSCI">
+    <input type="submit" value="Search">
+</form>
+
+<!-- List of courses, filtered or not -->
+<ul>
+    {% for course in courses %}
+        <li>{{ course['rubric'] }} {{ course['number'] }} - {{ course['name'] }} ({{ course['credits'] }} credits)</li>
+    {% endfor %}
+</ul>
+{% endblock %}
