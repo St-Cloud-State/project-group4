@@ -69,7 +69,7 @@ university_reg/
 │   └── script.js
 
 Once confirming everything is correct (again it should be already) -
-- Run the app from the root directory by running 'python app.py'
+- Run the app from the Project1 directory by running 'python app.py'
 Then open your browser and go to:
 http://127.0.0.1:5000
 
