@@ -1,0 +1,26 @@
+<!-- templates/add_registration.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Add Registration</h2>
+
+<!-- Form to add a new registration -->
+<form method="POST">
+    Student:
+    <!-- Dropdown menu for selecting a student -->
+    <select name="student_id" required>
+        {% for student in students %}
+            <option value="{{ student.id }}">{{ student.name }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    Section:
+    <!-- Dropdown menu for selecting a section -->
+    <select name="section_id" required>
+        {% for section in sections %}
+        <option value="{{ section.section_id }}"> {{ section.rubric }} {{ section.number }} - Section {{ section.section_id }} ({{ section.semester }}) </option>
+        {% endfor %}
+    </select><br><br>
+
+    <input type="submit" value="Register Student">
+</form>
+{% endblock %}

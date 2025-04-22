@@ -106,6 +106,85 @@ def list_sections():
     conn.close()
     return render_template('list_sections.html', sections=sections)
 
+# ------------------- Add Student to a Section -------------------
+@app.route('/add-registration', methods=['GET', 'POST'])
+def add_registration():
+    conn = get_db_connection()
+    students = conn.execute('SELECT id, name FROM students').fetchall()  # Get students for dropdown
+    sections = conn.execute('''SELECT sections.id AS section_id, sections.semester, courses.rubric, courses.number
+        FROM sections
+        JOIN courses ON sections.course_id = courses.id''').fetchall() # Get sections for dropdown
+
+    if request.method == 'POST':
+        student_id = request.form['student_id']
+        section_id = request.form['section_id']
+        conn.execute('INSERT INTO registrations (student_id, section_id) VALUES (?, ?)', 
+                       (student_id, section_id))
+        conn.commit()
+        return redirect(url_for('list_students_in_section', section_id=section_id))
+
+    conn.close()
+    return render_template('add_registration.html', students=students, sections=sections)
+
+
+# ------------------- List Students in a Section -------------------
+@app.route('/section-students', methods=['GET', 'POST'])
+def list_students_in_section():
+    conn = get_db_connection()
+    
+    # Get all sections for the dropdown
+    sections = conn.execute('''SELECT sections.id AS section_id, sections.semester, courses.rubric, courses.number
+                               FROM sections
+                               JOIN courses ON sections.course_id = courses.id''').fetchall()
+
+    # If a section is selected
+    section_id = request.args.get('section_id')
+    if section_id:
+        # Get the section details
+        section = conn.execute('''SELECT sections.id, sections.semester, courses.rubric, courses.number
+                                  FROM sections
+                                  JOIN courses ON sections.course_id = courses.id
+                                  WHERE sections.id = ?''', (section_id,)).fetchone()
+
+        # Get all students in the selected section
+        students = conn.execute('''SELECT students.name, students.address
+                                   FROM registrations
+                                   JOIN students ON registrations.student_id = students.id
+                                   WHERE registrations.section_id = ?''', (section_id,)).fetchall()
+
+        return render_template('list_section_students.html', sections=sections, section=section, students=students)
+
+    conn.close()
+    return render_template('list_section_students.html', sections=sections, students=None)
+
+
+# ------------------- List Courses Student is in  -------------------
+@app.route('/students-courses', methods=['GET', 'POST'])
+def list_students_courses():
+    conn = get_db_connection()
+
+    # Get all students for the dropdown
+    students = conn.execute('SELECT id AS student_id, name FROM students').fetchall()
+
+    # If a student is selected
+    student_id = request.args.get('student_id')
+    if student_id:
+        # Get the student's details
+        student = conn.execute('SELECT id, name FROM students WHERE id = ?', (student_id,)).fetchone()
+
+        # Get all courses the selected student is registered in
+        courses = conn.execute('''SELECT courses.rubric, courses.number, sections.semester 
+                                  FROM registrations
+                                  JOIN sections ON registrations.section_id = sections.id
+                                  JOIN courses ON sections.course_id = courses.id
+                                  WHERE registrations.student_id = ?''', (student_id,)).fetchall()
+
+        return render_template('list_student_courses.html', students=students, student=student, courses=courses)
+
+    conn.close()
+    return render_template('list_student_courses.html', students=students, student=None, courses=None)
+    
+
 # ------------------- Run the app -------------------
 if __name__ == '__main__':
     app.run(debug=True)

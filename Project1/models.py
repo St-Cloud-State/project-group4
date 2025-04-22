@@ -44,5 +44,16 @@ def init_db():
         )
     ''')
 
+    # Create the 'registrations' table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS registrations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Unique ID for each registration
+            student_id INTEGER NOT NULL,            -- Foreign key referencing a student
+            section_id INTEGER NOT NULL,            -- Foreign key referencing a section
+            FOREIGN KEY (student_id) REFERENCES students(id), -- Link to students table
+            FOREIGN KEY (section_id) REFERENCES sections(id) -- Link to sections table
+        )
+    ''')
+
     conn.commit()     # Save the changes to the database
     conn.close()      # Close the connection when done

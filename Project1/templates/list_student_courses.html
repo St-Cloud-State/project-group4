@@ -1,0 +1,30 @@
+<!-- templates/list_student_courses.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Courses for Student</h2>
+
+<!-- Form to select a student -->
+<form method="GET">
+    <label for="student_id">Select Student:</label>
+    <select name="student_id" id="student_id" required>
+        {% for student in students %}
+            <option value="{{ student.student_id }}" {% if student.student_id == student_id %}selected{% endif %}>{{ student.name }}</option>
+        {% endfor %}
+    </select><br><br>
+    <input type="submit" value="Show Courses">
+</form>
+
+<!-- Display the courses for the selected student -->
+{% if courses %}
+    <h3>Courses Registered:</h3>
+    <ul>
+        {% for course in courses %}
+            <li>{{ course.rubric }} {{ course.number }} ({{ course.semester }})</li>
+        {% endfor %}
+    </ul>
+{% elif student_id %}
+    <p>No courses found for the selected student.</p>
+{% endif %}
+
+{% endblock %}
+

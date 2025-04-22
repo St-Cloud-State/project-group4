@@ -1,0 +1,39 @@
+<!-- templates/list_section_students.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>List Students Registered in a Section</h2>
+
+<!-- If no section is selected like in the case of accessing the page from the nav bar, display only the dropdown to select one -->
+{% if sections %}
+    <form method="GET">
+        <label for="section_id">Choose a Section:</label>
+        <select name="section_id" id="section_id" required>
+            {% for section in sections %}
+                <option value="{{ section.section_id }}" {% if section.section_id == section_id %}selected{% endif %}>
+                    {{ section.rubric }} {{ section.number }} - Section {{ section.section_id }} ({{ section.semester }})
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="View Students">
+    </form>
+{% else %}
+    <p>No sections available.</p>
+{% endif %}
+
+<!-- If a section is selected like in the case of the redirect, display the list of students -->
+{% if section %}
+    <h3>Students Registered in {{ section.rubric }} {{ section.number }} ({{ section.semester }})</h3>
+
+    {% if students %}
+        <ul>
+            {% for student in students %}
+                <li>{{ student.name }} {% if student.address %} - {{ student.address }}{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No students registered for this section.</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}
