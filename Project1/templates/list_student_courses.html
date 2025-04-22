@@ -16,14 +16,14 @@
 
 <!-- Display the courses for the selected student -->
 {% if courses %}
-    <h3>Courses Registered:</h3>
+    <h3>Courses Registered for {{ student.name }}:</h3>
     <ul>
         {% for course in courses %}
             <li>{{ course.rubric }} {{ course.number }} ({{ course.semester }})</li>
         {% endfor %}
     </ul>
-{% elif student_id %}
-    <p>No courses found for the selected student.</p>
+{% elif courses is not none %}
+    <p>No courses found for {{ student.name }}.</p>
 {% endif %}
 
 {% endblock %}
